@@ -96,6 +96,8 @@ class TBLogger(object):
                 
 
             with self.writer.as_default():
+                if len(im_summaries) == 0:
+                    print("we didn't enter the second one")
                 for img_sum in im_summaries:
                     print(f"Image dimensions: {img_tensor.shape}")
                     tf.summary.write(img_sum)
