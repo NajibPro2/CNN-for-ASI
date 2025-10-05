@@ -1,4 +1,3 @@
-# Compatability Imports
 from __future__ import print_function
 from os.path import join
 
@@ -124,8 +123,7 @@ class TBLogger(object):
             #Get np-data
             im = im.data.numpy()
         return im
-# Compatability Imports
-from __future__ import print_function
+
 from os.path import join
 
 try:

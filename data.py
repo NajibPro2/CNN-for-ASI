@@ -1,4 +1,3 @@
-# Compatability Imports
 from __future__ import print_function
 from os.path import isfile, join
 
