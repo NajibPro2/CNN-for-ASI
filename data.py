@@ -5,6 +5,7 @@ import segyio
 from os import listdir
 import numpy as np
 import scipy.misc
+import imageio
 
 
 def readSEGY(filename):
@@ -100,7 +101,7 @@ def readLabels(foldername, data_info):
 
                 #Read file
                 print('Loading labels for', slice_type, slice_no, 'with')
-                img =  scipy.misc.imread(join(foldername, file))
+                img =  imageio.imread(join(foldername, file))
                 img = interpolate_to_fit_data(img, slice_type, slice_no, data_info)
                 label_img = parseLabelsInImage(img)
 
