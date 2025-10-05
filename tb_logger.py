@@ -81,14 +81,18 @@ class TBLogger(object):
             s = BytesIO()
             plt.imsave(s, img, format='png')
 
-            with self.writer.as_default():
-                for nr, img in enumerate(images):
-                    # Process image, save to summary as before...
-                    img_sum = tf.summary.Image(encoded_image_string=s.getvalue(),
-                                            height=img.shape[0],
-                                            width=img.shape[1])
-                    tf.summary.write('%s/%d' % (tag, nr), img_sum, step=step)
+            # Log the image summary
+            img_sum = tf.summary.image(
+                '%s/%d' % (tag, nr),  # Tag for the image
+                np.expand_dims(img, axis=0),  # Add batch dimension
+                step=step  # Log with the current step
+            )
 
+            im_summaries.append(img_sum)
+
+            with self.writer.as_default():
+                for img_sum in im_summaries:
+                    tf.summary.write(img_sum)
 
     # Cuts out middle slices from image
     def get_slices_from_3D(self, img):
@@ -147,9 +151,8 @@ class TBLogger(object):
 
     #Add scalar
     def log_scalar(self, tag, value, step=0):
-        summary = tf.Summary(value=[tf.Summary.Value(tag=tag,
-                                                     simple_value=value)])
-        self.writer.add_summary(summary, step)
+        with self.writer.as_default():
+            tf.summary.scalar(tag, value, step=step)
 
     def make_list_of_2D_array(self, im):
         if type(im) == type([]):
@@ -214,15 +217,15 @@ class TBLogger(object):
                 step=step
             )
             # Create a Summary value
-            im_summaries.append(tf.Summary.Value(tag='%s/%d' % (tag, nr),
-                                                 image=img_sum))
+            im_summaries.append(tf.summary.image('%s/%d' % (tag, nr), img_sum, step=step))
 
             #if nr == max_imgs-1:
             #    break
 
         # Create and write Summary
-        summary = tf.Summary(value=im_summaries)
-        self.writer.add_summary(summary, step)
+        with self.writer.as_default():
+            for img_sum in im_summaries:
+                tf.summary.write(img_sum)
 
     # Cuts out middle slices from image
     def get_slices_from_3D(self, img):
