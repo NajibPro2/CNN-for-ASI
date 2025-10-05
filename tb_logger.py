@@ -83,7 +83,8 @@ class TBLogger(object):
 
             # Create a 4D tensor for the image (batch_size, height, width, channels)
             img_tensor = np.expand_dims(img, axis=0)  # Adding batch dimension
-            img_tensor = np.expand_dims(img_tensor, axis=-1)  # Adding channels dimension (grayscale = 1 channel)
+            img_tensor = np.squeeze(img_tensor, axis=-1)  # Remove any extra dimension (if present)
+
 
 
             # Log the image summary
