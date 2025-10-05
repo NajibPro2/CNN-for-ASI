@@ -84,8 +84,8 @@ class TBLogger(object):
             # Create a 4D tensor for the image (batch_size, height, width, channels)
             img_tensor = np.expand_dims(img, axis=0)  # Adding batch dimension
             # If grayscale, add channels dimension
-            if cm == 'gray' or cm == 'grey':
-                img_tensor = np.expand_dims(img_tensor, axis=-1)  # Add channels dimension for grayscale images
+            #if cm == 'gray' or cm == 'grey':
+            #    img_tensor = np.expand_dims(img_tensor, axis=-1)  # Add channels dimension for grayscale images
 
 
             # Log the image summary
