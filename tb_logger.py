@@ -208,9 +208,11 @@ class TBLogger(object):
             plt.imsave(s, img, format='png')
 
             # Create an Image object
-            img_sum = tf.Summary.Image(encoded_image_string=s.getvalue(),
-                                       height=img.shape[0],
-                                       width=img.shape[1])
+            img_sum = tf.summary.image(
+                '%s/%d' % (tag, nr),  # Example: 'image_tag/0'
+                np.expand_dims(img, axis=0),  # Add batch dimension
+                step=step
+            )
             # Create a Summary value
             im_summaries.append(tf.Summary.Value(tag='%s/%d' % (tag, nr),
                                                  image=img_sum))
