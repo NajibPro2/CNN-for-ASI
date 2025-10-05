@@ -85,6 +85,7 @@ class TBLogger(object):
             img_tensor = np.expand_dims(img, axis=0)  # Adding batch dimension
             img_tensor = np.expand_dims(img_tensor, axis=-1)  # Adding channels dimension (grayscale = 1 channel)
 
+
             # Log the image summary
             with self.writer.as_default():
                 tf.summary.image('%s/%d' % (tag, nr), img_tensor, step=step)
