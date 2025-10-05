@@ -6,6 +6,7 @@ from os import listdir
 import numpy as np
 import scipy.misc
 import imageio
+from PIL import Image
 
 
 def readSEGY(filename):
@@ -179,7 +180,10 @@ def interpolate_to_fit_data(img, slice_type, slice_no, data_info):
     elif slice_type == 'timeslice':
         n0 = data_info['shape'][1]
         n1 = data_info['shape'][2]
-    return scipy.misc.imresize(img, (n0,n1), interp='nearest')
+    img = Image.fromarray(img)  # Convert NumPy array to PIL Image
+    img = img.resize((n0, n1), Image.NEAREST)  # Resize using 'nearest' interpolation
+    img = np.array(img)  # Convert back to NumPy array
+    return img
 
 # Get coordinates for slice in the full cube
 def get_coordinates_for_slice( slice_type, slice_no, data_info):
