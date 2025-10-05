@@ -83,6 +83,9 @@ class TBLogger(object):
 
             # Create a 4D tensor for the image (batch_size, height, width, channels)
             img_tensor = np.expand_dims(img, axis=0)  # Adding batch dimension
+            # If grayscale, add channels dimension
+            #if cm == 'gray' or cm == 'grey':
+            #    img_tensor = np.expand_dims(img_tensor, axis=-1)  # Add channels dimension for grayscale images
 
 
             # Log the image summary
@@ -90,10 +93,6 @@ class TBLogger(object):
                 print(f"Image dimensions: {img_tensor.shape}")
                 tf.summary.image('%s/%d' % (tag, nr), img_tensor, step=step)
                 print('the function tf.summary.image has been used seccessfully')
-
-            # If grayscale, add channels dimension
-            if cm == 'gray' or cm == 'grey':
-                img_tensor = np.expand_dims(img_tensor, axis=-1)  # Add channels dimension for grayscale images
                 
 
             with self.writer.as_default():
