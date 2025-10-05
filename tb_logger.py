@@ -91,6 +91,7 @@ class TBLogger(object):
             # Log the image summary
             with self.writer.as_default():
                 tf.summary.image('%s/%d' % (tag, nr), img_tensor, step=step)
+                print('the function tf.summary.image has been used seccessfully')
 
             with self.writer.as_default():
                 for img_sum in im_summaries:
