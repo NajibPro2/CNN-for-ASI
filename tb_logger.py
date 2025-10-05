@@ -84,8 +84,8 @@ class TBLogger(object):
             # Create a 4D tensor for the image (batch_size, height, width, channels)
             img_tensor = np.expand_dims(img, axis=0)  # Adding batch dimension
             # If grayscale, add channels dimension
-            #if cm == 'gray' or cm == 'grey':
-            #    img_tensor = np.expand_dims(img_tensor, axis=-1)  # Add channels dimension for grayscale images
+            if cm == 'gray' or cm == 'grey':
+                img_tensor = np.expand_dims(img_tensor, axis=-1)  # Add channels dimension for grayscale images
 
 
             # Log the image summary
@@ -96,6 +96,7 @@ class TBLogger(object):
             with self.writer.as_default():
                 for img_sum in im_summaries:
                     tf.summary.write(img_sum)
+                    print('the function tf.summary.write has been used seccessfully')
 
     # Cuts out middle slices from image
     def get_slices_from_3D(self, img):
