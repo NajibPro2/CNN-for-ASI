@@ -81,14 +81,13 @@ class TBLogger(object):
             s = BytesIO()
             plt.imsave(s, img, format='png')
 
-            # Log the image summary
-            img_sum = tf.summary.image(
-                '%s/%d' % (tag, nr),  # Tag for the image
-                np.expand_dims(img, axis=0),  # Add batch dimension
-                step=step  # Log with the current step
-            )
+            # Create a 4D tensor for the image (batch_size, height, width, channels)
+            img_tensor = np.expand_dims(img, axis=0)  # Adding batch dimension
+            img_tensor = np.expand_dims(img_tensor, axis=-1)  # Adding channels dimension (grayscale = 1 channel)
 
-            im_summaries.append(img_sum)
+            # Log the image summary
+            with self.writer.as_default():
+                tf.summary.image('%s/%d' % (tag, nr), img_tensor, step=step)
 
             with self.writer.as_default():
                 for img_sum in im_summaries:
